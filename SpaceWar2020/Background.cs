@@ -20,7 +20,6 @@ namespace SpaceWar2020
         public Background(Game game)
             : base(game)
         {
-            DrawOrder = 0;
         }
 
         public override void Draw(GameTime gameTime)

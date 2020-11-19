@@ -26,7 +26,6 @@ namespace SpaceWar2020
         public Explosion(Game game, Vector2 position)
             : base(game)
         {
-            DrawOrder = 1;
             this.position = position;
         }
 

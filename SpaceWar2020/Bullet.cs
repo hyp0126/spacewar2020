@@ -21,7 +21,6 @@ namespace SpaceWar2020
         public Bullet(Game game, Vector2 position)
             : base(game)
         {
-            DrawOrder = 1;
             this.position = position;
         }
 
