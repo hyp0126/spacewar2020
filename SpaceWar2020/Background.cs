@@ -73,7 +73,7 @@ namespace SpaceWar2020
             fullBackTexture = Game.Content.Load<Texture2D>(@"Background\space-1");
             tileTexture = Game.Content.Load<Texture2D>(@"Background\space-2");
 
-            backgroundMusic = Game.Content.Load<Song>(@"Sound\BackgroundSound");
+            backgroundMusic = Game.Content.Load<Song>(@"Sound\BackgroundMusic");
 
             MediaPlayer.Volume = 0.1f;
             MediaPlayer.IsRepeating = true;
