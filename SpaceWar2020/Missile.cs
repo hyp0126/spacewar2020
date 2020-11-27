@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +14,15 @@ namespace SpaceWar2020
     {
         Texture2D texture;
         Vector2 position;
+        double timer = 0;
+
+        static SoundEffect sfxShooting;
+
+        const int WIDTH = 40;
+        const int HEIGHT = 40;
+        const int SPEED = 5;
+        const float SFX_VOLUME = 0.1f;
+        const double TIME_INTERVAL = 0.1 ;
 
         public Missile(Game game)
             : this(game, Vector2.Zero)
@@ -21,18 +32,46 @@ namespace SpaceWar2020
         public Missile(Game game, Vector2 position)
             : base(game)
         {
-            this.position = position;
+            this.position = new Vector2(position.X - WIDTH/2, position.Y - HEIGHT + 10);
         }
 
         public override void Update(GameTime gameTime)
         {
+
+            timer += gameTime.ElapsedGameTime.TotalSeconds;
+
+            if( timer >= TIME_INTERVAL)
+            {
+                position.Y -= SPEED;
+            }
+
+            if(position.Y + HEIGHT == 0)
+            {
+                Game.Components.Remove(this);
+                //Game.Services.RemoveService(this.GetType());
+            }
 
             base.Update(gameTime);
         }
 
         protected override void LoadContent()
         {
-            texture = Game.Content.Load<Texture2D>("Missile\\Missile05");
+
+            if( texture == null)
+            {
+                texture = Game.Content.Load<Texture2D>(@"Missile\Missile05");
+            }
+
+            if( sfxShooting == null)
+            {
+                sfxShooting = Game.Content.Load<SoundEffect>(@"Sound\ShootingSound");
+            }
+            else
+            {
+                sfxShooting.Play(SFX_VOLUME, 0, 0);
+            }
+
+            
             base.LoadContent();
         }
 
@@ -41,8 +80,10 @@ namespace SpaceWar2020
             SpriteBatch sb = Game.Services.GetService<SpriteBatch>();
             sb.Begin();
             //sb.Draw(texture, position, Color.White);
-            sb.Draw(texture, new Rectangle((int)position.X, (int)position.Y, 50, 50), null, Color.White);
+            sb.Draw(texture, new Rectangle((int)position.X, (int)position.Y, WIDTH, HEIGHT), null, Color.White);
             sb.End();
+
+            
             base.Draw(gameTime);
         }
     }
