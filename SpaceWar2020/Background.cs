@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,9 @@ namespace SpaceWar2020
     {
         Texture2D fullBackTexture;
         Texture2D tileTexture;
+
+        //Background Music
+        Song backgroundMusic;
 
         bool drawfullBackground = true;
         KeyboardState prevKS = Keyboard.GetState();
@@ -66,8 +70,16 @@ namespace SpaceWar2020
 
         protected override void LoadContent()
         {
-            fullBackTexture = Game.Content.Load<Texture2D>("Background\\space-1");
-            tileTexture = Game.Content.Load<Texture2D>("Background\\space-2");
+            fullBackTexture = Game.Content.Load<Texture2D>(@"Background\space-1");
+            tileTexture = Game.Content.Load<Texture2D>(@"Background\space-2");
+
+            backgroundMusic = Game.Content.Load<Song>(@"Sound\BackgroundSound");
+
+            MediaPlayer.Volume = 0.1f;
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Play(backgroundMusic);
+
+
             base.LoadContent();
         }
     }

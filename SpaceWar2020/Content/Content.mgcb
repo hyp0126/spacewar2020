@@ -301,6 +301,24 @@
 /processorParam:TextureFormat=Color
 /build:Missile/new_bullet.png
 
+#begin Sound/BackgroundMusic.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sound/BackgroundMusic.mp3
+
+#begin Sound/CollisionSound.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/CollisionSound.mp3
+
+#begin Sound/ShootingSound.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/ShootingSound.mp3
+
 #begin Spacecraft/redfighter0001.png
 /importer:TextureImporter
 /processor:TextureProcessor
