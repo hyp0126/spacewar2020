@@ -86,11 +86,13 @@ namespace SpaceWar2020
             {
                 state = PlayerState.Idle;
                 position.Y -= SPEED;
+                currentFrame = 0;
             }
             else if (ks.IsKeyDown(Keys.Down))
             {
                 state = PlayerState.Idle;
                 position.Y += SPEED;
+                currentFrame = 0;
             }
             else
             {
