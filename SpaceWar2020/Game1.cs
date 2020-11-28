@@ -32,16 +32,16 @@ namespace SpaceWar2020
         {
             // TODO: Add your initialization logic here
             this.Components.Add(new Background(this));
-            //this.Components.Add(new Spacecraft(this, new Vector2(200, 200)));
-            this.Components.Add(new Spacecraft(this));
-            this.Components.Add(new Missile(this, new Vector2(225, 100)));
-            this.Components.Add(new Explosion(this, new Vector2(300, 200)));
-            this.Components.Add(new Asteroid(this, new Vector2(400, 200)));
-            this.Components.Add(new AlienSpacecraft(this, new Vector2(500, 200)));
-            this.Components.Add(new Bullet(this, new Vector2(535, 100)));
+            Spacecraft spacecraft = new Spacecraft(this, new Vector2(200, 300));
+            this.Components.Add(spacecraft);
+            Services.AddService<Spacecraft>(spacecraft);
 
-            
-            
+            //this.Components.Add(new Missile(this, new Vector2(225, 100)));
+            //this.Components.Add(new Explosion(this, new Vector2(300, 200)));
+
+            this.Components.Add(new AlienSpacecraftManager(this));
+            this.Components.Add(new AsteroidManager(this));
+
             base.Initialize();
         }
 

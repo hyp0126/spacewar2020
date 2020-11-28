@@ -8,10 +8,16 @@ using System.Threading.Tasks;
 
 namespace SpaceWar2020
 {
-    public class Bullet : DrawableGameComponent
+    public class Bullet : DrawableGameComponent, ICollidable
     {
+        public const int WIDTH = 10;
+        public const int HEIGHT = 10;
+        const int DOWN_SPEED = 6;
+
         Texture2D texture;
         Vector2 position;
+
+        public Rectangle CollisionBox => new Rectangle((int)position.X, (int)position.Y, WIDTH, HEIGHT);
 
         public Bullet(Game game)
             : this(game, Vector2.Zero)
@@ -26,7 +32,13 @@ namespace SpaceWar2020
 
         public override void Update(GameTime gameTime)
         {
+            position.Y += DOWN_SPEED;
 
+            // check boundary
+            if (this.CollisionBox.Top > Game.GraphicsDevice.Viewport.Height)
+            {
+                Game.Components.Remove(this);
+            }
             base.Update(gameTime);
         }
 
@@ -41,9 +53,19 @@ namespace SpaceWar2020
             SpriteBatch sb = Game.Services.GetService<SpriteBatch>();
             sb.Begin();
             //sb.Draw(texture, position, Color.White);
-            sb.Draw(texture, new Rectangle((int)position.X, (int)position.Y, 25, 25), null, Color.White);
+            sb.Draw(texture, new Rectangle((int)position.X, 
+                                           (int)position.Y,
+                                           WIDTH,
+                                           HEIGHT),
+                                           null,
+                                           Color.White);
             sb.End();
             base.Draw(gameTime);
+        }
+
+        public void HandleCollision()
+        {
+
         }
     }
 }

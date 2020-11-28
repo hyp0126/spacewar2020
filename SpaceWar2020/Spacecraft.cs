@@ -28,13 +28,13 @@ namespace SpaceWar2020
         const int SPEED = 5;
         const double MISSILE_INTERVAL = 0.1;
 
-        Vector2 position;
+        public Vector2 position;
         public int ScreenWidth => Game.GraphicsDevice.Viewport.Width;
         public int ScreenHeight => Game.GraphicsDevice.Viewport.Height;
 
         //for spacecraft's rectagle
-        const int WIDTH = 80;
-        const int HEIGHT = 80;
+        const int WIDTH = 50;
+        const int HEIGHT = 50;
 
         public Spacecraft(Game game)
             : this(game, Vector2.Zero)
@@ -82,7 +82,8 @@ namespace SpaceWar2020
                 state = PlayerState.Left;
                 position.X -= SPEED;
             }
-            else if (ks.IsKeyDown(Keys.Up))
+            
+            if (ks.IsKeyDown(Keys.Up))
             {
                 state = PlayerState.Idle;
                 position.Y -= SPEED;

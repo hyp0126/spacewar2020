@@ -41,12 +41,15 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AlienSpacecraftManager.cs" />
     <Compile Include="Asteroid.cs" />
+    <Compile Include="AsteroidManager.cs" />
     <Compile Include="Background.cs" />
     <Compile Include="AlienSpacecraft.cs" />
     <Compile Include="Bullet.cs" />
     <Compile Include="Explosion.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="ICollidable.cs" />
     <Compile Include="Missile.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

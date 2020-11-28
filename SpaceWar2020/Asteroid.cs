@@ -8,8 +8,15 @@ using System.Threading.Tasks;
 
 namespace SpaceWar2020
 {
-    public class Asteroid : DrawableGameComponent
+    public class Asteroid : DrawableGameComponent, ICollidable
     {
+        public const int WIDTH = 50;
+        public const int HEIGHT = 50;
+        const int DOWN_SPEED = 3;
+        const int HORIZONTAL_SPEED = 3;
+
+        Random random;
+
         List<Texture2D> textures;
         int currentFrame = 0;
 
@@ -17,6 +24,9 @@ namespace SpaceWar2020
         const double FRAME_INTERVAL = 0.1;
 
         Vector2 position;
+        int horizontal_speed;
+
+        public Rectangle CollisionBox => new Rectangle((int)position.X, (int)position.Y, WIDTH, HEIGHT);
 
         public Asteroid(Game game)
             : this(game, Vector2.Zero)
@@ -26,11 +36,16 @@ namespace SpaceWar2020
         public Asteroid(Game game, Vector2 position)
             : base(game)
         {
+            random = new Random();
             this.position = position;
+            horizontal_speed = random.Next(-HORIZONTAL_SPEED, HORIZONTAL_SPEED);
         }
 
         public override void Update(GameTime gameTime)
         {
+            position.Y += DOWN_SPEED;
+            position.X += horizontal_speed;
+
             frameTimer += gameTime.ElapsedGameTime.TotalSeconds;
             if (frameTimer >= FRAME_INTERVAL)
             {
@@ -64,9 +79,21 @@ namespace SpaceWar2020
         {
             SpriteBatch sb = Game.Services.GetService<SpriteBatch>();
             sb.Begin();
-            sb.Draw(textures[currentFrame], position, Color.White);
+            sb.Draw(textures[currentFrame],
+                    new Rectangle((int)position.X, (int)position.Y, WIDTH, HEIGHT),
+                    null,
+                    Color.White,
+                    0f,
+                    Vector2.Zero,
+                    SpriteEffects.None,
+                    0f);
             sb.End();
             base.Draw(gameTime);
+        }
+
+        public void HandleCollision()
+        {
+
         }
     }
 }
