@@ -12,12 +12,19 @@ namespace SpaceWar2020
     {
         public const int WIDTH = 50;
         public const int HEIGHT = 50;
-        const int DOWN_SPEED = 3;
-        const int HORIZONTAL_SPEED = 3;
+        const int MIN_HORIZONTAL_SPEED = 0;
+        const int MAX_HORIZONTAL_SPEED = 5;
+        const int MIN_DOWN_SPEED = 1;
+        const int MAX_DOWN_SPEED = 5;
         const double BULLET_DUARTION = 0.5;
 
-        Texture2D texture;
+        int downSpeed;
+        int horizontalSpeed;
+
+        static Texture2D texture;
         Vector2 position;
+
+        static Random random;
 
         double createBulletTimer;
 
@@ -34,24 +41,45 @@ namespace SpaceWar2020
         {
             this.position = position;
             createBulletTimer = 0;
+            if (random == null)
+            {
+                random = new Random();
+            }
+            downSpeed = random.Next(MIN_DOWN_SPEED, MAX_DOWN_SPEED);
+            horizontalSpeed = random.Next(MIN_HORIZONTAL_SPEED, MAX_HORIZONTAL_SPEED);
         }
 
         public override void Update(GameTime gameTime)
         {
-            position.Y += DOWN_SPEED;
+            position.Y += downSpeed;
 
-            // Move to Player
-            var spacecraft = Game.Services.GetService<Spacecraft>();
-            if (position.X > spacecraft.position.X)
-            {
-                position.X -= HORIZONTAL_SPEED;
-            }
-            else
-            {
-                position.X += HORIZONTAL_SPEED;
-            }
+            MoveToPlayer();
 
-            // Create New Bullet
+            CheckorMissileCollision();
+
+            CheckForCollisionWithPlayer();
+
+            CreateNewBullet(gameTime);
+
+            base.Update(gameTime);
+        }
+
+        private void CheckorMissileCollision()
+        {
+            for (int i = 0; i < Game.Components.OfType<Missile>().Count(); i++)
+            {
+                Missile missile = Game.Components.OfType<Missile>().ElementAt(i);
+                if (this.CollisionBox.Intersects(missile.CollisionBox))
+                {
+                    missile.HandleCollision();
+                    this.HandleCollision();
+                    i--;
+                }
+            }
+        }
+
+        private void CreateNewBullet(GameTime gameTime)
+        {
             createBulletTimer += gameTime.ElapsedGameTime.TotalSeconds;
             if (createBulletTimer > BULLET_DUARTION)
             {
@@ -60,18 +88,52 @@ namespace SpaceWar2020
                 Game.Components.Add(new Bullet(Game, new Vector2(x, y)));
                 createBulletTimer = 0;
             }
-            base.Update(gameTime);
+        }
+
+        private void CheckForCollisionWithPlayer()
+        {
+            Spacecraft player = Game.Services.GetService<Spacecraft>();
+            if (player != null)
+            {
+                if (player.CollisionBox.Intersects(this.CollisionBox))
+                {
+                    player.HandleCollision();
+                    this.HandleCollision();
+                }
+            }
+        }
+
+        private void MoveToPlayer()
+        {
+            var player = Game.Services.GetService<Spacecraft>();
+            if (player != null)
+            {
+                float distance = position.X - player.position.X;
+                if (distance > 0 && distance >= horizontalSpeed)
+                {
+                    position.X -= horizontalSpeed;
+                }
+                else if (distance <= -horizontalSpeed)
+                {
+                    position.X += horizontalSpeed;
+                }
+            }
         }
 
         protected override void LoadContent()
         {
-            texture = Game.Content.Load<Texture2D>("AlienSpacecraft\\bluecarrier");
+            if (texture == null)
+            {
+                texture = Game.Content.Load<Texture2D>("AlienSpacecraft\\bluecarrier");
+            }
+
             base.LoadContent();
         }
 
         public override void Draw(GameTime gameTime)
         {
             SpriteBatch sb = Game.Services.GetService<SpriteBatch>();
+
             sb.Begin();
             var origin = new Vector2(0, texture.Height);
             sb.Draw(texture, 
@@ -83,12 +145,14 @@ namespace SpaceWar2020
                     SpriteEffects.None,
                     0f);
             sb.End();
+
             base.Draw(gameTime);
         }
 
         public void HandleCollision()
         {
-
+            Game.Components.Remove(this);
+            Game.Components.Add(new Explosion(Game, new Vector2(position.X, position.Y)));
         }
     }
 }

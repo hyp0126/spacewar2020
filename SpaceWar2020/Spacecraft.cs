@@ -15,26 +15,26 @@ namespace SpaceWar2020
         Right,
         Left
     }
-    public class Spacecraft : DrawableGameComponent
+    public class Spacecraft : DrawableGameComponent, ICollidable
     {
+        const int WIDTH = 50;
+        const int HEIGHT = 50;
+        const double FRAME_DURATION = 0.2;
+        const int SPEED = 5;
+        const double MISSILE_INTERVAL = 0.1;
 
-        Dictionary<PlayerState, List<Texture2D>> textures;
+        static Dictionary<PlayerState, List<Texture2D>> textures;
         PlayerState state;
         int currentFrame = 0;
         double frameTimer = 0;
         double timer = 0;
 
-        const double FRAME_DURATION = 0.2;
-        const int SPEED = 5;
-        const double MISSILE_INTERVAL = 0.1;
-
         public Vector2 position;
+
         public int ScreenWidth => Game.GraphicsDevice.Viewport.Width;
         public int ScreenHeight => Game.GraphicsDevice.Viewport.Height;
 
-        //for spacecraft's rectagle
-        const int WIDTH = 50;
-        const int HEIGHT = 50;
+        public Rectangle CollisionBox => new Rectangle((int)position.X, (int)position.Y, WIDTH, HEIGHT);
 
         public Spacecraft(Game game)
             : this(game, Vector2.Zero)
@@ -82,7 +82,13 @@ namespace SpaceWar2020
                 state = PlayerState.Left;
                 position.X -= SPEED;
             }
-            
+            else
+            {
+
+                state = PlayerState.Idle;
+                currentFrame = 0;
+            }
+
             if (ks.IsKeyDown(Keys.Up))
             {
                 state = PlayerState.Idle;
@@ -93,12 +99,6 @@ namespace SpaceWar2020
             {
                 state = PlayerState.Idle;
                 position.Y += SPEED;
-                currentFrame = 0;
-            }
-            else
-            {
-
-                state = PlayerState.Idle;
                 currentFrame = 0;
             }
 
@@ -126,24 +126,26 @@ namespace SpaceWar2020
 
         protected override void LoadContent()
         {
+            if (textures.Count == 0)
+            {
+                // load our Idle texture frames
+                textures.Add(PlayerState.Idle, new List<Texture2D>());
+                textures[PlayerState.Idle].Add(Game.Content.Load<Texture2D>(@"Spacecraft\redfighter0005"));
 
-            // load our Idle texture frames
-            textures.Add(PlayerState.Idle, new List<Texture2D>());
-            textures[PlayerState.Idle].Add(Game.Content.Load<Texture2D>(@"Spacecraft\redfighter0005"));
+                // load our Right textue frames
+                textures.Add(PlayerState.Right, new List<Texture2D>());
+                textures[PlayerState.Right].Add(Game.Content.Load<Texture2D>(@"Spacecraft\redfighter0006"));
+                textures[PlayerState.Right].Add(Game.Content.Load<Texture2D>(@"Spacecraft\redfighter0007"));
+                textures[PlayerState.Right].Add(Game.Content.Load<Texture2D>(@"Spacecraft\redfighter0008"));
+                textures[PlayerState.Right].Add(Game.Content.Load<Texture2D>(@"Spacecraft\redfighter0009"));
 
-            // load our Right textue frames
-            textures.Add(PlayerState.Right, new List<Texture2D>());
-            textures[PlayerState.Right].Add(Game.Content.Load<Texture2D>(@"Spacecraft\redfighter0006"));
-            textures[PlayerState.Right].Add(Game.Content.Load<Texture2D>(@"Spacecraft\redfighter0007"));
-            textures[PlayerState.Right].Add(Game.Content.Load<Texture2D>(@"Spacecraft\redfighter0008"));
-            textures[PlayerState.Right].Add(Game.Content.Load<Texture2D>(@"Spacecraft\redfighter0009"));
-
-            // load our Left texture frames
-            textures.Add(PlayerState.Left, new List<Texture2D>());
-            textures[PlayerState.Left].Add(Game.Content.Load<Texture2D>(@"Spacecraft\redfighter0004"));
-            textures[PlayerState.Left].Add(Game.Content.Load<Texture2D>(@"Spacecraft\redfighter0003"));
-            textures[PlayerState.Left].Add(Game.Content.Load<Texture2D>(@"Spacecraft\redfighter0002"));
-            textures[PlayerState.Left].Add(Game.Content.Load<Texture2D>(@"Spacecraft\redfighter0001"));
+                // load our Left texture frames
+                textures.Add(PlayerState.Left, new List<Texture2D>());
+                textures[PlayerState.Left].Add(Game.Content.Load<Texture2D>(@"Spacecraft\redfighter0004"));
+                textures[PlayerState.Left].Add(Game.Content.Load<Texture2D>(@"Spacecraft\redfighter0003"));
+                textures[PlayerState.Left].Add(Game.Content.Load<Texture2D>(@"Spacecraft\redfighter0002"));
+                textures[PlayerState.Left].Add(Game.Content.Load<Texture2D>(@"Spacecraft\redfighter0001"));
+            }
 
             position = new Vector2(ScreenWidth / 2 - WIDTH / 2,
                                     ScreenHeight - HEIGHT);
@@ -155,12 +157,24 @@ namespace SpaceWar2020
         public override void Draw(GameTime gameTime)
         {
             SpriteBatch sb = Game.Services.GetService<SpriteBatch>();
+
             sb.Begin();
             //sb.Draw(textures[currentFrame], position, Color.White);
-            sb.Draw(textures[state][currentFrame], new Rectangle((int)position.X, (int)position.Y, WIDTH, HEIGHT), null, Color.White);
-            
+            sb.Draw(textures[state][currentFrame], 
+                    new Rectangle((int)position.X, (int)position.Y, WIDTH, HEIGHT), 
+                    null, 
+                    Color.White);            
             sb.End();
+
             base.Draw(gameTime);
+        }
+
+        public void HandleCollision()
+        {
+            Game.Components.Remove(this);
+            Game.Services.RemoveService(this.GetType());
+
+            Game.Components.Add(new Explosion(Game, new Vector2(position.X, position.Y)));
         }
     }
 }

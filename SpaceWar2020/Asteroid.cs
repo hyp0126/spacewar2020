@@ -17,7 +17,7 @@ namespace SpaceWar2020
 
         Random random;
 
-        List<Texture2D> textures;
+        static List<Texture2D> textures;
         int currentFrame = 0;
 
         double frameTimer = 0;
@@ -46,6 +46,31 @@ namespace SpaceWar2020
             position.Y += DOWN_SPEED;
             position.X += horizontal_speed;
 
+            UpdateFrame(gameTime);
+
+            CheckorMissileCollision();
+
+            CheckForCollisionWithPlayer();
+
+            base.Update(gameTime);
+        }
+
+        private void CheckorMissileCollision()
+        {
+            for (int i = 0; i < Game.Components.OfType<Missile>().Count(); i++)
+            {
+                Missile missile = Game.Components.OfType<Missile>().ElementAt(i);
+                if (this.CollisionBox.Intersects(missile.CollisionBox))
+                {
+                    missile.HandleCollision();
+                    this.HandleCollision();
+                    i--;
+                }
+            }
+        }
+
+        private void UpdateFrame(GameTime gameTime)
+        {
             frameTimer += gameTime.ElapsedGameTime.TotalSeconds;
             if (frameTimer >= FRAME_INTERVAL)
             {
@@ -57,20 +82,35 @@ namespace SpaceWar2020
                     currentFrame = 0;
                 }
             }
-            base.Update(gameTime);
+        }
+
+        private void CheckForCollisionWithPlayer()
+        {
+            Spacecraft player = Game.Services.GetService<Spacecraft>();
+            if (player != null)
+            {
+                if (player.CollisionBox.Intersects(this.CollisionBox))
+                {
+                    player.HandleCollision();
+                    this.HandleCollision();
+                }
+            }
         }
 
         protected override void LoadContent()
         {
-            textures = new List<Texture2D>();
-            textures.Add(Game.Content.Load<Texture2D>("Asteroid\\a10000"));
-            textures.Add(Game.Content.Load<Texture2D>("Asteroid\\a10002"));
-            textures.Add(Game.Content.Load<Texture2D>("Asteroid\\a10004"));
-            textures.Add(Game.Content.Load<Texture2D>("Asteroid\\a10006"));
-            textures.Add(Game.Content.Load<Texture2D>("Asteroid\\a10008"));
-            textures.Add(Game.Content.Load<Texture2D>("Asteroid\\a10010"));
-            textures.Add(Game.Content.Load<Texture2D>("Asteroid\\a10012"));
-            textures.Add(Game.Content.Load<Texture2D>("Asteroid\\a10014"));
+            if (textures == null)
+            {
+                textures = new List<Texture2D>();
+                textures.Add(Game.Content.Load<Texture2D>("Asteroid\\a10000"));
+                textures.Add(Game.Content.Load<Texture2D>("Asteroid\\a10002"));
+                textures.Add(Game.Content.Load<Texture2D>("Asteroid\\a10004"));
+                textures.Add(Game.Content.Load<Texture2D>("Asteroid\\a10006"));
+                textures.Add(Game.Content.Load<Texture2D>("Asteroid\\a10008"));
+                textures.Add(Game.Content.Load<Texture2D>("Asteroid\\a10010"));
+                textures.Add(Game.Content.Load<Texture2D>("Asteroid\\a10012"));
+                textures.Add(Game.Content.Load<Texture2D>("Asteroid\\a10014"));
+            }
 
             base.LoadContent();
         }
@@ -78,6 +118,7 @@ namespace SpaceWar2020
         public override void Draw(GameTime gameTime)
         {
             SpriteBatch sb = Game.Services.GetService<SpriteBatch>();
+
             sb.Begin();
             sb.Draw(textures[currentFrame],
                     new Rectangle((int)position.X, (int)position.Y, WIDTH, HEIGHT),
@@ -88,12 +129,15 @@ namespace SpaceWar2020
                     SpriteEffects.None,
                     0f);
             sb.End();
+
             base.Draw(gameTime);
         }
 
         public void HandleCollision()
         {
+            Game.Components.Remove(this);
 
+            Game.Components.Add(new Explosion(Game, new Vector2(position.X, position.Y)));
         }
     }
 }
