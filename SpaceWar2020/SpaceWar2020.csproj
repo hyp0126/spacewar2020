@@ -50,6 +50,7 @@
     <Compile Include="GameComponents\Explosion.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="GameComponents\HelpTextComponent.cs" />
+    <Compile Include="GameComponents\HighScoreComponent.cs" />
     <Compile Include="GameComponents\ICollidable.cs" />
     <Compile Include="GameComponents\MenuComponent.cs" />
     <Compile Include="GameComponents\Missile.cs" />
@@ -59,6 +60,7 @@
     <Compile Include="Scenes\ActionScene.cs" />
     <Compile Include="Scenes\GameScene.cs" />
     <Compile Include="Scenes\HelpScene.cs" />
+    <Compile Include="Scenes\HighScoreScene.cs" />
     <Compile Include="Scenes\StartScene.cs" />
   </ItemGroup>
   <ItemGroup>

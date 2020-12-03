@@ -3,8 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Linq;
 
-// Git Test 01
-// Git Test 1
 namespace SpaceWar2020
 {
     /// <summary>
@@ -44,6 +42,10 @@ namespace SpaceWar2020
             HelpScene helpScene = new HelpScene(this);
             this.Components.Add(helpScene);
             Services.AddService<HelpScene>(helpScene);
+
+            HighScoreScene highScoreScene = new HighScoreScene(this);
+            this.Components.Add(highScoreScene);
+            Services.AddService<HighScoreScene>(highScoreScene);
 
             base.Initialize();
             

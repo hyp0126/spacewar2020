@@ -99,7 +99,8 @@ namespace SpaceWar2020
                     Game.Exit();
                     break;
                 case MenuSelection.HighScore:
-                    //To Do
+                    Game.Services.GetService<HighScoreScene>().Show();
+                    break;
                 case MenuSelection.About:
                     //To Do
                 default:
