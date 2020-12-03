@@ -59,12 +59,12 @@ namespace SpaceWar2020
         protected override void LoadContent()
         {
 
-            if( texture == null)
+            if (texture == null)
             {
                 texture = Game.Content.Load<Texture2D>(@"Missile\Missile05");
             }
 
-            if( sfxShooting == null)
+            if (sfxShooting == null)
             {
                 sfxShooting = Game.Content.Load<SoundEffect>(@"Sound\ShootingSound");
             }

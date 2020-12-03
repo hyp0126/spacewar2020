@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Linq;
 
 // Git Test 01
 // Git Test 1
@@ -31,16 +32,38 @@ namespace SpaceWar2020
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            this.Components.Add(new Background(this));
+            StartScene menuScene = new StartScene(this);
+            this.Components.Add(menuScene);
+            Services.AddService<StartScene>(menuScene);
 
-            Spacecraft spacecraft = new Spacecraft(this, new Vector2(200, 300));
-            this.Components.Add(spacecraft);
-            Services.AddService<Spacecraft>(spacecraft);
 
-            this.Components.Add(new AlienSpacecraftManager(this));
-            this.Components.Add(new AsteroidManager(this));
+            //create other scenes here and add to component list
+            ActionScene actionScene = new ActionScene(this);
+            this.Components.Add(actionScene);
+            Services.AddService<ActionScene>(actionScene);
+
+            HelpScene helpScene = new HelpScene(this);
+            this.Components.Add(helpScene);
+            Services.AddService<HelpScene>(helpScene);
 
             base.Initialize();
+            
+            // hide all then show our first scene
+            // this has to be done after the initialize methods are called
+            // on all our components 
+            HideAllScenes();
+            menuScene.Show();
+        }
+
+        /// <summary>
+        /// Get all scenes currently in our game, and hide/disable them
+        /// </summary>
+        public void HideAllScenes()
+        {
+            foreach (GameScene scene in Components.OfType<GameScene>())
+            {
+                scene.Hide();
+            }
         }
 
         /// <summary>
@@ -72,8 +95,8 @@ namespace SpaceWar2020
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            //    Exit();
 
             // TODO: Add your update logic here
 

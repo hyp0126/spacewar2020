@@ -15,12 +15,14 @@ namespace SpaceWar2020
         const int MAX_ALIEN_SPACECRAFT = 5;
 
         Random random;
+        GameScene parent;
 
         double creatSpacecrafteTimer;
 
-        public AlienSpacecraftManager(Game game) 
+        public AlienSpacecraftManager(Game game, GameScene parent) 
             : base(game)
         {
+            this.parent = parent;
             random = new Random(5678);
             creatSpacecrafteTimer = 0;
         }
@@ -30,7 +32,7 @@ namespace SpaceWar2020
             int x = random.Next(AlienSpacecraft.WIDTH, 
                                 Game.GraphicsDevice.Viewport.Width - AlienSpacecraft.WIDTH);
             int y = -AlienSpacecraft.HEIGHT;
-            Game.Components.Add(new AlienSpacecraft(Game, new Vector2(x, y)));
+            parent.AddComponent(new AlienSpacecraft(Game, parent, new Vector2(x, y)));
             base.Initialize();
         }
 
@@ -55,7 +57,7 @@ namespace SpaceWar2020
                     int x = random.Next(AlienSpacecraft.WIDTH,
                                         Game.GraphicsDevice.Viewport.Width - AlienSpacecraft.WIDTH);
                     int y = -AlienSpacecraft.HEIGHT;
-                    Game.Components.Add(new AlienSpacecraft(Game, new Vector2(x, y)));
+                    parent.AddComponent(new AlienSpacecraft(Game, parent, new Vector2(x, y)));
                 }
                 creatSpacecrafteTimer = 0;
             }

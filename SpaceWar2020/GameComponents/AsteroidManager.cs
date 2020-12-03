@@ -12,12 +12,14 @@ namespace SpaceWar2020
         const double CREATE_DUARTION = 1;
         const int MAX_ASTEROID = 5;
 
+        GameScene parent;
         Random random;
 
         double createTimer;
 
-        public AsteroidManager(Game game) : base(game)
+        public AsteroidManager(Game game, GameScene parent) : base(game)
         {
+            this.parent = parent;
             random = new Random(1234);
             createTimer = 0;
         }
@@ -26,7 +28,7 @@ namespace SpaceWar2020
             int x = random.Next(Asteroid.WIDTH,
                     Game.GraphicsDevice.Viewport.Width - Asteroid.WIDTH);
             int y = -Asteroid.HEIGHT;
-            Game.Components.Add(new Asteroid(Game, new Vector2(x, y)));
+            //Game.Components.Add(new Asteroid(Game, new Vector2(x, y)));
             base.Initialize();
         }
 
@@ -59,7 +61,7 @@ namespace SpaceWar2020
                     int x = random.Next(Asteroid.WIDTH,
                                         Game.GraphicsDevice.Viewport.Width - Asteroid.WIDTH);
                     int y = -Asteroid.HEIGHT;
-                    Game.Components.Add(new Asteroid(Game, new Vector2(x, y)));
+                    parent.AddComponent(new Asteroid(Game, new Vector2(x, y)));
                 }
                 createTimer = 0;
 

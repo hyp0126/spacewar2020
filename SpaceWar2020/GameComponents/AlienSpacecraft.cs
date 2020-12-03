@@ -18,6 +18,7 @@ namespace SpaceWar2020
         const int MAX_DOWN_SPEED = 5;
         const double BULLET_DUARTION = 0.5;
 
+        GameScene parent;
         int downSpeed;
         int horizontalSpeed;
 
@@ -31,14 +32,15 @@ namespace SpaceWar2020
         public Rectangle CollisionBox => new Rectangle((int)position.X, (int)position.Y, WIDTH, HEIGHT);
 
 
-        public AlienSpacecraft(Game game)
-            : this(game, Vector2.Zero)
+        public AlienSpacecraft(Game game, GameScene parent)
+            : this(game, parent, Vector2.Zero)
         {
         }
 
-        public AlienSpacecraft(Game game, Vector2 position)
+        public AlienSpacecraft(Game game, GameScene parent, Vector2 position)
             : base(game)
         {
+            this.parent = parent;
             this.position = position;
             createBulletTimer = 0;
             if (random == null)
@@ -85,7 +87,7 @@ namespace SpaceWar2020
             {
                 float x = position.X + WIDTH / 2 - Bullet.WIDTH / 2;
                 float y = position.Y + HEIGHT;
-                Game.Components.Add(new Bullet(Game, new Vector2(x, y)));
+                parent.AddComponent(new Bullet(Game, new Vector2(x, y)));
                 createBulletTimer = 0;
             }
         }

@@ -23,6 +23,7 @@ namespace SpaceWar2020
         const int SPEED = 5;
         const double MISSILE_INTERVAL = 0.1;
 
+        GameScene parent;
         static Dictionary<PlayerState, List<Texture2D>> textures;
         PlayerState state;
         int currentFrame = 0;
@@ -36,14 +37,15 @@ namespace SpaceWar2020
 
         public Rectangle CollisionBox => new Rectangle((int)position.X, (int)position.Y, WIDTH, HEIGHT);
 
-        public Spacecraft(Game game)
-            : this(game, Vector2.Zero)
+        public Spacecraft(Game game, GameScene parent)
+            : this(game, parent, Vector2.Zero)
         {
         }
 
-        public Spacecraft(Game game, Vector2 position)
+        public Spacecraft(Game game, GameScene parent, Vector2 position)
             : base(game)
         {
+            this.parent = parent;
             this.position = position;
             state = PlayerState.Idle;
             textures = new Dictionary<PlayerState, List<Texture2D>>();
@@ -109,7 +111,7 @@ namespace SpaceWar2020
                 {
                     Missile missile = new Missile(Game, new Vector2(position.X + WIDTH / 2, position.Y));
                     timer = 0;
-                    Game.Components.Add(missile);
+                    parent.AddComponent(missile);
                 }
                 //if(gameTime.TotalGameTime - prevMissileSpawnTime > missileSpawnTime)
                 //{
@@ -174,7 +176,7 @@ namespace SpaceWar2020
             Game.Components.Remove(this);
             Game.Services.RemoveService(this.GetType());
 
-            Game.Components.Add(new Explosion(Game, new Vector2(position.X, position.Y)));
+            parent.AddComponent(new Explosion(Game, new Vector2(position.X, position.Y)));
         }
     }
 }
