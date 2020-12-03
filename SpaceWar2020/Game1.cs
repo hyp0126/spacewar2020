@@ -36,7 +36,6 @@ namespace SpaceWar2020
             this.Components.Add(menuScene);
             Services.AddService<StartScene>(menuScene);
 
-
             //create other scenes here and add to component list
             ActionScene actionScene = new ActionScene(this);
             this.Components.Add(actionScene);

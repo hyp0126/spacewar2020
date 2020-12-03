@@ -12,10 +12,10 @@ namespace SpaceWar2020
     public enum MenuSelection
     {
         StartGame,
-        Help,
         HighScore,
-        Credit,
-        Quit
+        Help,
+        About,
+        ExitGame
     }
 
     public class MenuComponent : DrawableGameComponent
@@ -38,10 +38,10 @@ namespace SpaceWar2020
             menuItems = new List<string>
             {
                 "Start Game",
-                "Help",
                 "High Score",
-                "Credit",
-                "Quit"
+                "Help",
+                "About",
+                "Exit Game"
             };
             prevKS = Keyboard.GetState();
         }
@@ -95,11 +95,13 @@ namespace SpaceWar2020
                 case MenuSelection.Help:
                     Game.Services.GetService<HelpScene>().Show();
                     break;
-                case MenuSelection.Quit:
+                case MenuSelection.ExitGame:
                     Game.Exit();
                     break;
                 case MenuSelection.HighScore:
-                case MenuSelection.Credit:
+                    //To Do
+                case MenuSelection.About:
+                    //To Do
                 default:
                     // for now there is nothing handling the other options
                     // we will simply show this screen again
