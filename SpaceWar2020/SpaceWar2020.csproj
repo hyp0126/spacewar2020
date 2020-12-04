@@ -54,6 +54,7 @@
     <Compile Include="GameComponents\ICollidable.cs" />
     <Compile Include="GameComponents\MenuComponent.cs" />
     <Compile Include="GameComponents\Missile.cs" />
+    <Compile Include="GameScore.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GameComponents\Spacecraft.cs" />

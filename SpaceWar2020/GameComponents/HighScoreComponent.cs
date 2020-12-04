@@ -10,23 +10,8 @@ using Microsoft.Xna.Framework.Input;
 
 namespace SpaceWar2020
 {
-    public struct GameScore
-    {
-        public string Name;
-        public int Value;
-
-        public GameScore(string name, int value)
-        {
-            Name = name;
-            Value = value;
-        }
-    }
-
     class HighScoreComponent : DrawableGameComponent
     {
-        const int MAX_NUM_OF_SCORE = 5;
-        const string SCORE_FILE_NAME = "scores.txt";
-
         SpriteFont scoreFont;
 
         private Vector2 startingPosition;
@@ -70,18 +55,15 @@ namespace SpaceWar2020
 
             Vector2 nextPosition = startingPosition;
 
-            List<GameScore> gameScores = new List<GameScore>();
-            string ErrorMessage;
-
             // Read Score File
-            ReadScoreFile(gameScores);
+            List<ScoreData> gameScores = GameScore.ReadScoresFromFile();
 
             sb.Begin();
 
             for (int i = 0; i < gameScores.Count; i++)
             {
 
-                sb.DrawString(scoreFont, $"{gameScores[i].Name} : {gameScores[i].Value}", nextPosition, Color.Black);
+                sb.DrawString(scoreFont, $"{gameScores[i].Name} : {gameScores[i].Value} points", nextPosition, Color.Black);
 
                 // update the position of next string
                 nextPosition.Y += scoreFont.LineSpacing;
@@ -90,56 +72,6 @@ namespace SpaceWar2020
             sb.End();
 
             base.Draw(gameTime);
-        }
-
-        private static void ReadScoreFile(List<GameScore> gameScores)
-        {
-            string fileName = SCORE_FILE_NAME;
-            if (File.Exists(fileName))
-            {
-                try
-                {
-                    using (StreamReader reader = new StreamReader(fileName))
-                    {
-                        //while (reader.EndOfStream == false)
-                        //{
-                        for (int i = 0; i < MAX_NUM_OF_SCORE; i++)
-                        {
-                            string line = reader.ReadLine();
-                            string[] fields = line.Split(',');
-                            int scoreValue = int.Parse(fields[1]);
-                            gameScores.Add(new GameScore(fields[0], scoreValue));
-                        }
-                        //}
-                    }
-                }
-                catch (Exception ex)
-                {
-                    // Display Error Message
-                }
-
-                // Descending Order
-                gameScores.Sort((pair1, pair2) => pair2.Value.CompareTo(pair1.Value));
-            }
-            else
-            {
-                // Create default Score Data
-                gameScores.Add(new GameScore("None", 0));
-                gameScores.Add(new GameScore("None", 0));
-                gameScores.Add(new GameScore("None", 0));
-                gameScores.Add(new GameScore("None", 0));
-                gameScores.Add(new GameScore("None", 0));
-
-                // Save Score data
-                using (StreamWriter writer = new StreamWriter(fileName, false))
-                {
-                    for (int i = 0; i < MAX_NUM_OF_SCORE; i++)
-                    {
-                        writer.Write($"{gameScores[i].Name}, {gameScores[i].Value}{Environment.NewLine}");
-                    }
-                    writer.Flush();
-                }
-            }
         }
     }
 }
