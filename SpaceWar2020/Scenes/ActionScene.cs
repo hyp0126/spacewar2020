@@ -29,12 +29,16 @@ namespace SpaceWar2020
 
         private void StartNewGame()
         {
-            Spacecraft spacecraft = new Spacecraft(Game, this, new Vector2(200, 300));
+            Spacecraft spacecraft = new Spacecraft(Game, this);
             this.AddComponent(spacecraft);
             Game.Services.AddService<Spacecraft>(spacecraft);
 
             this.AddComponent(new AlienSpacecraftManager(Game, this));
             this.AddComponent(new AsteroidManager(Game, this));
+            ScoreDisplay sd = new ScoreDisplay(Game, this);
+            this.AddComponent(sd);
+            Game.Services.AddService<ScoreDisplay>(sd);
+
         }
 
         public override void Update(GameTime gameTime)

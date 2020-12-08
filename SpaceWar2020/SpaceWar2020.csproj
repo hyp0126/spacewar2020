@@ -49,6 +49,7 @@
     <Compile Include="GameComponents\Bullet.cs" />
     <Compile Include="GameComponents\Explosion.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="GameComponents\ScoreDisplay.cs" />
     <Compile Include="GameComponents\HelpTextComponent.cs" />
     <Compile Include="GameComponents\HighScoreComponent.cs" />
     <Compile Include="GameComponents\ICollidable.cs" />

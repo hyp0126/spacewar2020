@@ -73,6 +73,7 @@ namespace SpaceWar2020
                 Missile missile = Game.Components.OfType<Missile>().ElementAt(i);
                 if (this.CollisionBox.Intersects(missile.CollisionBox))
                 {
+                    ScoreDisplay.addScore(50);
                     missile.HandleCollision();
                     this.HandleCollision();
                     i--;
