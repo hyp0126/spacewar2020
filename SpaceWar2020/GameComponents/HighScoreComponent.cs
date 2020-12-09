@@ -28,7 +28,7 @@ namespace SpaceWar2020
             // starting position of the menu items - but you can decise to put it elsewhere
             SpriteFont font = Game.Content.Load<SpriteFont>(@"Fonts\regularFont");
             startingPosition = new Vector2(GraphicsDevice.Viewport.Width / 2 - font.MeasureString(TITLE).X / 2,
-                              GraphicsDevice.Viewport.Height / 2 - (MAX_RECORDS + 1) * font.MeasureString(TITLE).Y / 2);
+                              GraphicsDevice.Viewport.Height / 2 - (MAX_RECORDS + 2) * font.MeasureString(TITLE).Y / 2);
 
             base.Initialize();
         }
@@ -63,7 +63,8 @@ namespace SpaceWar2020
             List<ScoreData> gameScores = GameScore.ReadScoresFromFile();
 
             sb.Begin();
-            sb.DrawString(scoreFont, "High Score Record", nextPosition, Color.Red);
+            sb.DrawString(scoreFont, TITLE, nextPosition, Color.Red);
+            nextPosition.Y += scoreFont.LineSpacing;
             nextPosition.Y += scoreFont.LineSpacing;
             for (int i = 0; i < gameScores.Count; i++)
             {
