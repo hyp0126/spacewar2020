@@ -12,12 +12,17 @@ namespace SpaceWar2020
     {
         public const int WIDTH = 10;
         public const int HEIGHT = 10;
+        const int COLLISION_OFFSET_WIDTH = 1;
+        const int COLLISION_OFFSET_HEIGHT = 1;
         const int DOWN_SPEED = 6;
 
         static Texture2D texture;
         Vector2 position;
 
-        public Rectangle CollisionBox => new Rectangle((int)position.X, (int)position.Y, WIDTH, HEIGHT);
+        public Rectangle CollisionBox => new Rectangle((int)position.X + COLLISION_OFFSET_WIDTH,
+                       (int)position.Y + COLLISION_OFFSET_HEIGHT,
+                       WIDTH - 2 * COLLISION_OFFSET_WIDTH,
+                       HEIGHT - 2 * COLLISION_OFFSET_HEIGHT);
 
         public Bullet(Game game)
             : this(game, Vector2.Zero)
@@ -73,7 +78,6 @@ namespace SpaceWar2020
             SpriteBatch sb = Game.Services.GetService<SpriteBatch>();
 
             sb.Begin();
-            //sb.Draw(texture, position, Color.White);
             sb.Draw(texture, new Rectangle((int)position.X, 
                                            (int)position.Y,
                                            WIDTH,

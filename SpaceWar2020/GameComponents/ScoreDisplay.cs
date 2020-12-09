@@ -15,25 +15,35 @@ namespace SpaceWar2020
         Vector2 scorePosition;
         SpriteFont scoreFont;
         GameScene parent;
-        static int totalScore;
+        int totalScore;
 
-        static public void addScore(int score)
+        public void AddScore(int score)
         {
             totalScore += score;
         }
 
-        static public int getScore()
+        public int GetScore()
         {
             return totalScore;
+        }
+
+        public void ResetScore()
+        {
+            totalScore = 0;
         }
 
         public ScoreDisplay(Game game, GameScene parent)
                         : base(game)
         {
+            if (Game.Services.GetService<ScoreDisplay>() != null)
+            {
+                Game.Services.RemoveService(typeof(ScoreDisplay));
+            }
+            Game.Services.AddService<ScoreDisplay>(this);
+
             this.parent = parent;
+            totalScore = 0;
             scoreText = "";
-            
-            
         }
 
         public override void Draw(GameTime gameTime)
@@ -45,14 +55,11 @@ namespace SpaceWar2020
             sb.End();
 
             base.Draw(gameTime);
-
-            base.Draw(gameTime);
         }
 
         public override void Update(GameTime gameTime)
         {
-
-            scoreText = $"Score : {getScore()} points";
+            scoreText = $"Score : {GetScore()} points";
             scorePosition = new Vector2(Game.GraphicsDevice.Viewport.Width / 2 - scoreFont.MeasureString(scoreText).X / 2, 10);
 
             base.Update(gameTime);

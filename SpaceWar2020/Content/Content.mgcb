@@ -272,13 +272,6 @@
 /processorParam:TextureFormat=Compressed
 /build:Fonts/hilightFont.spritefont
 
-#begin Fonts/hudFont.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
-/build:Fonts/hudFont.spritefont
-
 #begin Fonts/regularFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -292,13 +285,6 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:Fonts/scoreDisplayFont.spritefont
-
-#begin Fonts/scoreFont.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
-/build:Fonts/scoreFont.spritefont
 
 #begin Images/helpImage.png
 /importer:TextureImporter

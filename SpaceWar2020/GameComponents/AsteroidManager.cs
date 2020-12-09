@@ -28,7 +28,7 @@ namespace SpaceWar2020
             int x = random.Next(Asteroid.WIDTH,
                     Game.GraphicsDevice.Viewport.Width - Asteroid.WIDTH);
             int y = -Asteroid.HEIGHT;
-            //Game.Components.Add(new Asteroid(Game, new Vector2(x, y)));
+
             base.Initialize();
         }
 

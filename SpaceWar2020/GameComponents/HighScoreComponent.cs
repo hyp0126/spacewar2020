@@ -12,6 +12,9 @@ namespace SpaceWar2020
 {
     class HighScoreComponent : DrawableGameComponent
     {
+        const string TITLE = "High Score Record";
+        const int MAX_RECORDS = 5;
+
         SpriteFont scoreFont;
 
         private Vector2 startingPosition;
@@ -23,8 +26,9 @@ namespace SpaceWar2020
         public override void Initialize()
         {
             // starting position of the menu items - but you can decise to put it elsewhere
-            startingPosition = new Vector2(GraphicsDevice.Viewport.Width / 2,
-                                      GraphicsDevice.Viewport.Height / 2);
+            SpriteFont font = Game.Content.Load<SpriteFont>(@"Fonts\regularFont");
+            startingPosition = new Vector2(GraphicsDevice.Viewport.Width / 2 - font.MeasureString(TITLE).X / 2,
+                              GraphicsDevice.Viewport.Height / 2 - (MAX_RECORDS + 1) * font.MeasureString(TITLE).Y / 2);
 
             base.Initialize();
         }
@@ -59,12 +63,11 @@ namespace SpaceWar2020
             List<ScoreData> gameScores = GameScore.ReadScoresFromFile();
 
             sb.Begin();
-
+            sb.DrawString(scoreFont, "High Score Record", nextPosition, Color.Red);
+            nextPosition.Y += scoreFont.LineSpacing;
             for (int i = 0; i < gameScores.Count; i++)
             {
-
                 sb.DrawString(scoreFont, $"{gameScores[i].Name} : {gameScores[i].Value} points", nextPosition, Color.Black);
-
                 // update the position of next string
                 nextPosition.Y += scoreFont.LineSpacing;
             }

@@ -46,6 +46,24 @@ namespace SpaceWar2020
             prevKS = Keyboard.GetState();
         }
 
+        public override void Initialize()
+        {
+            // starting position of the menu items - but you can decise to put it elsewhere
+            SpriteFont font = Game.Content.Load<SpriteFont>(@"Fonts\regularFont");
+            startingPosition = new Vector2(GraphicsDevice.Viewport.Width / 2 - font.MeasureString(menuItems[0]).X / 2,
+                              GraphicsDevice.Viewport.Height / 2 - menuItems.Count * font.MeasureString(menuItems[0]).Y / 2);
+
+            base.Initialize();
+        }
+
+        protected override void LoadContent()
+        {
+            // load the fonts we will be using for this menu
+            regularFont = Game.Content.Load<SpriteFont>(@"Fonts\regularFont");
+            highlightFont = Game.Content.Load<SpriteFont>(@"Fonts\hilightFont");
+            base.LoadContent();
+        }
+
         public override void Update(GameTime gameTime)
         {
             KeyboardState ks = Keyboard.GetState();
@@ -102,7 +120,8 @@ namespace SpaceWar2020
                     Game.Services.GetService<HighScoreScene>().Show();
                     break;
                 case MenuSelection.About:
-                    //To Do
+                    Game.Services.GetService<AboutScene>().Show();
+                    break;
                 default:
                     // for now there is nothing handling the other options
                     // we will simply show this screen again
@@ -141,23 +160,6 @@ namespace SpaceWar2020
             sb.End();
 
             base.Draw(gameTime);
-        }
-
-        public override void Initialize()
-        {
-            // starting position of the menu items - but you can decise to put it elsewhere
-            startingPosition = new Vector2(GraphicsDevice.Viewport.Width / 2,
-                                      GraphicsDevice.Viewport.Height / 2);
-
-            base.Initialize();
-        }
-
-        protected override void LoadContent()
-        {
-            // load the fonts we will be using for this menu
-            regularFont = Game.Content.Load<SpriteFont>(@"Fonts\regularFont");
-            highlightFont = Game.Content.Load<SpriteFont>(@"Fonts\hilightFont");
-            base.LoadContent();
         }
     }
 }

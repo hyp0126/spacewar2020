@@ -1,14 +1,19 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace SpaceWar2020
 {
-    class HelpTextComponent : DrawableGameComponent
+    class AboutTextComponent : DrawableGameComponent
     {
         Texture2D texture;
 
-        public HelpTextComponent(Game game) : base(game)
+        public AboutTextComponent(Game game) : base(game)
         {
         }
 
@@ -28,7 +33,7 @@ namespace SpaceWar2020
 
             base.Draw(gameTime);
         }
-        
+
 
         protected override void LoadContent()
         {

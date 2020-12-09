@@ -14,6 +14,8 @@ namespace SpaceWar2020
     {
         const int WIDTH = 40;
         const int HEIGHT = 40;
+        const int COLLISION_OFFSET_WIDTH = 15;
+        const int COLLISION_OFFSET_HEIGHT = 5;
         const int SPEED = 5;
         const float SFX_VOLUME = 0.1f;
         const double TIME_INTERVAL = 0.1;
@@ -24,8 +26,10 @@ namespace SpaceWar2020
 
         static SoundEffect sfxShooting;
 
-        public Rectangle CollisionBox => new Rectangle((int)position.X, (int)position.Y, WIDTH, HEIGHT);
-
+        public Rectangle CollisionBox => new Rectangle((int)position.X + COLLISION_OFFSET_WIDTH,
+                               (int)position.Y + COLLISION_OFFSET_HEIGHT,
+                               WIDTH - 2 * COLLISION_OFFSET_WIDTH,
+                               HEIGHT - 2 * COLLISION_OFFSET_HEIGHT);
         public Missile(Game game)
             : this(game, Vector2.Zero)
         {
@@ -78,7 +82,6 @@ namespace SpaceWar2020
             SpriteBatch sb = Game.Services.GetService<SpriteBatch>();
 
             sb.Begin();
-            //sb.Draw(texture, position, Color.White);
             sb.Draw(texture, 
                     new Rectangle((int)position.X, (int)position.Y, WIDTH, HEIGHT),
                     null,

@@ -35,8 +35,6 @@ namespace SpaceWar2020
                 {
                     using (StreamReader reader = new StreamReader(fileName))
                     {
-                        //while (reader.EndOfStream == false)
-                        //{
                         for (int i = 0; i < MAX_NUM_OF_SCORE; i++)
                         {
                             string line = reader.ReadLine();
@@ -44,7 +42,6 @@ namespace SpaceWar2020
                             int scoreValue = int.Parse(fields[1]);
                             scores.Add(new ScoreData(fields[0], scoreValue));
                         }
-                        //}
                     }
                 }
                 catch (Exception ex)
@@ -95,18 +92,45 @@ namespace SpaceWar2020
             }
         }
 
-        public static bool CheckHighScore(ScoreData score)
+        public static bool CheckHighScore(int score)
         {
             List<ScoreData> scores = ReadScoresFromFile();
 
             for (int i = 0; i < scores.Count; i++)
             {
-                if (scores[i].Value < score.Value)
+                if (scores[i].Value < score)
                 {
                     return true;
                 }
             }
             return false;
+        }
+
+        public static void WriteScore(ScoreData score)
+        {
+            if (string.IsNullOrWhiteSpace(score.Name))
+            {
+                score.Name = "-----";
+            }
+
+            List<ScoreData> scores = ReadScoresFromFile();
+            scores.Add(score);
+
+            // Descending Order
+            scores.Sort((first, second) => second.Value.CompareTo(first.Value));
+
+            // Remove last score
+            scores.RemoveAt(scores.Count - 1);
+
+            // Write scores to a file
+            using (StreamWriter writer = new StreamWriter(SCORE_FILE_NAME, false))
+            {
+                for (int i = 0; i < MAX_NUM_OF_SCORE; i++)
+                {
+                    writer.Write($"{scores[i].Name}, {scores[i].Value}{Environment.NewLine}");
+                }
+                writer.Flush();
+            }
         }
     }
 }

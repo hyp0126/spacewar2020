@@ -59,7 +59,8 @@ namespace SpaceWar2020
         public override void Update(GameTime gameTime)
         {
             KeyboardState ks = Keyboard.GetState();
-            if (ks.IsKeyDown(Keys.B) && prevKS.IsKeyUp(Keys.B))
+            if (ks.IsKeyDown(Keys.B) && prevKS.IsKeyUp(Keys.B) 
+                && (ks.IsKeyDown(Keys.LeftControl) || ks.IsKeyDown(Keys.RightControl)))
             {
                 drawfullBackground = !drawfullBackground;
             }
@@ -78,7 +79,6 @@ namespace SpaceWar2020
             MediaPlayer.Volume = 0.1f;
             MediaPlayer.IsRepeating = true;
             MediaPlayer.Play(backgroundMusic);
-
 
             base.LoadContent();
         }

@@ -12,8 +12,11 @@ namespace SpaceWar2020
     {
         public const int WIDTH = 50;
         public const int HEIGHT = 50;
+        const int COLLISION_OFFSET_WIDTH = 15;
+        const int COLLISION_OFFSET_HEIGHT = 15;
         const int DOWN_SPEED = 3;
         const int HORIZONTAL_SPEED = 3;
+        const int POINTS = 20;
 
         Random random;
 
@@ -26,7 +29,10 @@ namespace SpaceWar2020
         Vector2 position;
         int horizontal_speed;
 
-        public Rectangle CollisionBox => new Rectangle((int)position.X, (int)position.Y, WIDTH, HEIGHT);
+        public Rectangle CollisionBox => new Rectangle((int)position.X + COLLISION_OFFSET_WIDTH,
+                                       (int)position.Y + COLLISION_OFFSET_HEIGHT,
+                                       WIDTH - 2 * COLLISION_OFFSET_WIDTH,
+                                       HEIGHT - 2 * COLLISION_OFFSET_HEIGHT);
 
         public Asteroid(Game game)
             : this(game, Vector2.Zero)
@@ -62,7 +68,7 @@ namespace SpaceWar2020
                 Missile missile = Game.Components.OfType<Missile>().ElementAt(i);
                 if (this.CollisionBox.Intersects(missile.CollisionBox))
                 {
-                    ScoreDisplay.addScore(20);
+                    Game.Services.GetService<ScoreDisplay>().AddScore(POINTS);
                     missile.HandleCollision();
                     this.HandleCollision();
                     i--;

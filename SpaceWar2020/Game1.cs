@@ -47,8 +47,12 @@ namespace SpaceWar2020
             this.Components.Add(highScoreScene);
             Services.AddService<HighScoreScene>(highScoreScene);
 
-            base.Initialize();
-            
+            AboutScene aboutScene = new AboutScene(this);
+            this.Components.Add(aboutScene);
+            Services.AddService<AboutScene>(aboutScene);
+
+            base.Initialize(); 
+
             // hide all then show our first scene
             // this has to be done after the initialize methods are called
             // on all our components 

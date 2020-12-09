@@ -47,7 +47,6 @@ namespace SpaceWar2020
                 currentFrame++;
                 if (currentFrame >= textures.Count)
                 {
-                    //currentFrame = 0;
                     Game.Components.Remove(this);
                 }
             }
@@ -85,7 +84,6 @@ namespace SpaceWar2020
             SpriteBatch sb = Game.Services.GetService<SpriteBatch>();
 
             sb.Begin();
-            //sb.Draw(textures[currentFrame], position, Color.White);
             sb.Draw(textures[currentFrame],
                     new Rectangle((int)position.X, (int)position.Y, 100, 100),
                     null,
