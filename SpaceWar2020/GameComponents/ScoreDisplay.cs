@@ -17,32 +17,46 @@ using Microsoft.Xna.Framework.Input;
 
 namespace SpaceWar2020
 {
+    /// <summary>
+    /// Component for manipulating and displaying the player score 
+    /// </summary>
     public class ScoreDisplay : DrawableGameComponent
     {
-        string scoreText;
-        Vector2 scorePosition;
+        /// <summary>
+        /// Font for displaying a score
+        /// </summary>
         SpriteFont scoreFont;
+
+        /// <summary>
+        /// parent Gamescene
+        /// </summary>
         GameScene parent;
+
+        /// <summary>
+        /// Position for displaying score value
+        /// </summary>
+        Vector2 scorePosition;
+
+        /// <summary>
+        /// Current Score value (String)
+        /// </summary>
+        string scoreText;
+
+        /// <summary>
+        /// Current Score
+        /// </summary>
         int totalScore;
 
-        public void AddScore(int score)
-        {
-            totalScore += score;
-        }
-
-        public int GetScore()
-        {
-            return totalScore;
-        }
-
-        public void ResetScore()
-        {
-            totalScore = 0;
-        }
-
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="game">Game Entity</param>
+        /// <param name="parent">parent GameScene</param>
         public ScoreDisplay(Game game, GameScene parent)
                         : base(game)
         {
+            // If previous ScoreDisplay component exists,
+            //  remove it and add a new component
             if (Game.Services.GetService<ScoreDisplay>() != null)
             {
                 Game.Services.RemoveService(typeof(ScoreDisplay));
@@ -52,6 +66,7 @@ namespace SpaceWar2020
             this.parent = parent;
             totalScore = 0;
             scoreText = "";
+            scorePosition = new Vector2();
         }
 
         public override void Draw(GameTime gameTime)
@@ -59,6 +74,7 @@ namespace SpaceWar2020
             SpriteBatch sb = Game.Services.GetService<SpriteBatch>();
 
             sb.Begin();
+            // Display current score
             sb.DrawString(scoreFont, scoreText, scorePosition, Color.Red);
             sb.End();
 
@@ -67,9 +83,12 @@ namespace SpaceWar2020
 
         public override void Update(GameTime gameTime)
         {
+            // Set current score text (string) to display it
             scoreText = $"Score : {GetScore()} points";
-            scorePosition = new Vector2(Game.GraphicsDevice.Viewport.Width / 2 - scoreFont.MeasureString(scoreText).X / 2, 10);
 
+            // Set position for display score (top, center horizontally)
+            scorePosition.X = Game.GraphicsDevice.Viewport.Width / 2 - scoreFont.MeasureString(scoreText).X / 2;
+            scorePosition.Y = scoreFont.MeasureString(scoreText).Y;
             base.Update(gameTime);
         }
 
@@ -77,6 +96,32 @@ namespace SpaceWar2020
         {
             scoreFont = Game.Content.Load<SpriteFont>(@"Fonts\scoreDisplayFont");
             base.LoadContent();
+        }
+
+        /// <summary>
+        /// Add score to current total score
+        /// </summary>
+        /// <param name="score">score</param>
+        public void AddScore(int score)
+        {
+            totalScore += score;
+        }
+
+        /// <summary>
+        /// Get current score
+        /// </summary>
+        /// <returns>current score</returns>
+        public int GetScore()
+        {
+            return totalScore;
+        }
+
+        /// <summary>
+        /// Reset current score
+        /// </summary>
+        public void ResetScore()
+        {
+            totalScore = 0;
         }
     }
 }

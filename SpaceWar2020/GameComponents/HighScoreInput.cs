@@ -3,7 +3,8 @@
  * Final Project: SpaceWar2020
  *                Input component for saving a new high score with a player name
  * Revision History:
- *      Jiyoung Jung, 2020.12.09: Version 1.0
+ *      originally from Course Material
+ *      Jiyoung Jung, 2020.12.09: Modified, Version 1.1
  *      
 */
 using System;
@@ -17,20 +18,57 @@ using Microsoft.Xna.Framework.Input;
 
 namespace SpaceWar2020
 {
+    /// <summary>
+    /// Component for inputting a player name who earned a high score
+    /// </summary>
     class HighScoreInput : DrawableGameComponent
     {
+        /// <summary>
+        /// Menu Title
+        /// </summary>
         const string TITLE = "Enter Your Name";
-        const double STOP_DURATION = 0.2;
 
-        double timer = 0;
-        bool timerOn = false;
+        /// <summary>
+        /// Idel time after player entered user name.
+        /// For stable transition from input mode to game mode
+        /// </summary>
+        const double IDLE_DURATION = 0.2;
 
+        /// <summary>
+        /// Font for displaying menu and input
+        /// </summary>
         SpriteFont font;
+
+        /// <summary>
+        /// Menu start position 
+        /// </summary>
         private Vector2 startingPosition;
 
+        /// <summary>
+        /// Idle state timer
+        /// </summary>
+        double idleTimer = 0;
+
+        /// <summary>
+        /// Idel timer on flag
+        /// </summary>
+        bool idleTimerOn = false;
+
+        /// <summary>
+        /// Current Text which user inputted
+        /// </summary>
         string enteredString; 
+
+        /// <summary>
+        /// previous keyboard state
+        /// </summary>
         KeyboardState prevKS;
 
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="game">Game Entity</param>
         public HighScoreInput(Game game) : base(game)
         {
             enteredString = "";
@@ -39,6 +77,7 @@ namespace SpaceWar2020
 
         public override void Initialize()
         {
+            // Assign starting position in the middle of screen
             SpriteFont font = Game.Content.Load<SpriteFont>(@"Fonts\regularFont");
             startingPosition = new Vector2(GraphicsDevice.Viewport.Width / 2 - font.MeasureString(TITLE).X / 2,
                               GraphicsDevice.Viewport.Height / 2 - 2 * font.MeasureString(TITLE).Y / 2);
@@ -48,6 +87,7 @@ namespace SpaceWar2020
 
         protected override void LoadContent()
         {
+            // Load menu font
             font = Game.Content.Load<SpriteFont>(@"Fonts\regularFont");
 
             base.LoadContent();
@@ -57,13 +97,12 @@ namespace SpaceWar2020
         {
             KeyboardState keyState = Keyboard.GetState();
 
-            // get all keys currently pressed
+            // Get all keys currently pressed
             Keys[] pressedKeys = keyState.GetPressedKeys();
 
             if (pressedKeys.Length > 0)
             {
-
-                // iterate through all pressed keys
+                // Iterate through all pressed keys
                 foreach (Keys key in pressedKeys)
                 {
                     if (prevKS.IsKeyDown(key))
@@ -131,9 +170,11 @@ namespace SpaceWar2020
                             enteredString += "\"";
                             break;
                         case Keys.Enter:
+                            // Add current score to High Score List File
                             int score = Game.Services.GetService<ScoreDisplay>().GetScore();
                             GameScore.WriteScore(new ScoreData(enteredString, score));
-                            timerOn = true;
+                            // Idle timer is on for stable transition from menu to game
+                            idleTimerOn = true;
                             break;
                         case Keys.OemMinus:
                             enteredString += "-";
@@ -147,10 +188,12 @@ namespace SpaceWar2020
 
             prevKS = keyState;
 
-            if (timerOn)
+            // Check Idle Timer
+            // If Idle Timer is over, reset score and remove this instance
+            if (idleTimerOn)
             {
-                timer += gameTime.ElapsedGameTime.TotalSeconds;
-                if (timer >= STOP_DURATION)
+                idleTimer += gameTime.ElapsedGameTime.TotalSeconds;
+                if (idleTimer >= IDLE_DURATION)
                 {
                     Game.Services.GetService<ScoreDisplay>().ResetScore();
                     Game.Components.Remove(this);
@@ -158,7 +201,7 @@ namespace SpaceWar2020
             }
             else
             {
-                timer = 0;
+                idleTimer = 0;
             }
 
             base.Update(gameTime);
@@ -170,9 +213,10 @@ namespace SpaceWar2020
             Vector2 nextPosition = startingPosition;
 
             sb.Begin();
+            // Display menu title
             sb.DrawString(font, TITLE, nextPosition, Color.Red);
             nextPosition.Y += font.LineSpacing;
-
+            // Display current inputted name
             sb.DrawString(font, enteredString, nextPosition, Color.Red);
             sb.End();
             base.Draw(gameTime);

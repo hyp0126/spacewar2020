@@ -1,7 +1,7 @@
 ﻿/* 
  * HighScoreComponent.cs
  * Final Project: SpaceWar2020
- *                HIgh Score sub-menu component
+ *                High Score sub-menu component
  * Revision History:
  *      Jiyoung Jung, 2020.12.03: Version 1.0
  *      
@@ -18,23 +18,44 @@ using Microsoft.Xna.Framework.Input;
 
 namespace SpaceWar2020
 {
+    /// <summary>
+    /// Hgh Score Sub-Menu: Display High Score List
+    /// </summary>
     class HighScoreComponent : DrawableGameComponent
     {
+        /// <summary>
+        /// Menu Title
+        /// </summary>
         const string TITLE = "High Score Record";
+        
+        /// <summary>
+        /// Maximum number of score saved in a file
+        /// </summary>
         const int MAX_RECORDS = 5;
 
+        /// <summary>
+        /// Font for High Score Menu Title
+        /// </summary>
         SpriteFont scoreTitleFont;
+
+        /// <summary>
+        /// Font for High Score List
+        /// </summary>
         SpriteFont scoreFont;
 
+        /// <summary>
+        /// Menu Start Position
+        /// </summary>
         private Vector2 startingPosition;
 
+        // Default Constructor
         public HighScoreComponent(Game game) : base(game)
         {
         }
 
         public override void Initialize()
         {
-            // starting position of the menu items - but you can decise to put it elsewhere
+            // Assign starting position in the middle of screen
             SpriteFont font = Game.Content.Load<SpriteFont>(@"Fonts\regularFont");
             startingPosition = new Vector2(GraphicsDevice.Viewport.Width / 2 - font.MeasureString(TITLE).X / 2,
                               GraphicsDevice.Viewport.Height / 2 - (MAX_RECORDS + 2) * font.MeasureString(TITLE).Y / 2);
@@ -44,9 +65,9 @@ namespace SpaceWar2020
 
         protected override void LoadContent()
         {
-            // load the fonts we will be using for this menu
+            // Load menu title font
             scoreTitleFont = Game.Content.Load<SpriteFont>(@"Fonts\regularFont");
-            // Monospace font for alienment (Name : score)
+            // Load score list font which is Monospace font for alienment (Name : score)
             scoreFont = Game.Content.Load<SpriteFont>(@"Fonts\scoreMenuFont");
             base.LoadContent();
         }
@@ -55,7 +76,7 @@ namespace SpaceWar2020
         {
             KeyboardState ks = Keyboard.GetState();
 
-            // handle the escape key for this scene
+            // ESC key: exit menu
             if (ks.IsKeyDown(Keys.Escape))
             {
                 ((Game1)Game).HideAllScenes();
@@ -70,22 +91,26 @@ namespace SpaceWar2020
 
             Vector2 nextPosition = startingPosition;
 
-            // Read Score File
+            // Read Scores form a File
             List<ScoreData> gameScores = GameScore.ReadScoresFromFile();
 
             sb.Begin();
+            // Display Menu Title
             sb.DrawString(scoreTitleFont, TITLE, nextPosition, Color.Red);
             nextPosition.Y += scoreFont.LineSpacing;
+            // Display a Blank Line
             nextPosition.Y += scoreFont.LineSpacing;
+            // Diplay score list
             for (int i = 0; i < gameScores.Count; i++)
             {
-                string point = String.Format("{0,6}", gameScores[i].Value.ToString());
-                string name = String.Format("{0,-12}", gameScores[i].Name);
+                // Name: Left Alignment
+                string name = String.Format("{0, -12}", gameScores[i].Name);
+                // Score: Right Alignment
+                string point = String.Format("{0, 6}", gameScores[i].Value.ToString());
                 sb.DrawString(scoreFont, name + " : " + point, nextPosition, Color.Black);
-                // update the position of next string
+                // Update the position of next score
                 nextPosition.Y += scoreFont.LineSpacing;
             }
-
             sb.End();
 
             base.Draw(gameTime);

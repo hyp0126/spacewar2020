@@ -3,7 +3,8 @@
  * Final Project: SpaceWar2020
  *                Main Menu Component
  * Revision History:
- *      Yiphyo Hong, 2020.12.03: Version 1.0
+ *      Originally from Course Material
+ *      Yiphyo Hong, 2020.12.03: Modified, Version 1.1
  *      
 */
 using System;
@@ -17,6 +18,9 @@ using Microsoft.Xna.Framework.Input;
 
 namespace SpaceWar2020
 {
+    /// <summary>
+    /// Enum for Menu
+    /// </summary>
     public enum MenuSelection
     {
         StartGame,
@@ -26,23 +30,58 @@ namespace SpaceWar2020
         ExitGame
     }
 
+    /// <summary>
+    /// Component for manipulating menus in the main menu
+    /// </summary>
     public class MenuComponent : DrawableGameComponent
     {
-
+        /// <summary>
+        /// Font for unseledted menu items
+        /// </summary>
         SpriteFont regularFont;
+
+        /// <summary>
+        /// Font for a seledted menu item
+        /// </summary>
         SpriteFont highlightFont;
 
+        /// <summary>
+        /// Sub-menu text list
+        /// </summary>
         private List<string> menuItems;
+
+        /// <summary>
+        /// Selected menu index 
+        /// </summary>
         private int selectedIndex;
+
+        /// <summary>
+        /// Main Menu initial position
+        /// </summary>
         private Vector2 startingPosition;
 
+        /// <summary>
+        /// Font Color for unseledted menu items
+        /// </summary>
         private Color regularColor = Color.Black;
+
+        /// <summary>
+        /// Font Color for a seledted menu item
+        /// </summary>
         private Color hilightColor = Color.Red;
 
+        /// <summary>
+        /// previous keyboard state
+        /// </summary>
         private KeyboardState prevKS;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="game">Game Entity</param>
         public MenuComponent(Game game) : base(game)
         {
+            //Set sub-menu texts
             menuItems = new List<string>
             {
                 "Start Game",
@@ -51,12 +90,13 @@ namespace SpaceWar2020
                 "About",
                 "Exit Game"
             };
+
             prevKS = Keyboard.GetState();
         }
 
         public override void Initialize()
         {
-            // starting position of the menu items - but you can decise to put it elsewhere
+            // Assign starting position in the middle of screen
             SpriteFont font = Game.Content.Load<SpriteFont>(@"Fonts\regularFont");
             startingPosition = new Vector2(GraphicsDevice.Viewport.Width / 2 - font.MeasureString(menuItems[0]).X / 2,
                               GraphicsDevice.Viewport.Height / 2 - menuItems.Count * font.MeasureString(menuItems[0]).Y / 2);
@@ -66,7 +106,7 @@ namespace SpaceWar2020
 
         protected override void LoadContent()
         {
-            // load the fonts we will be using for this menu
+            // Load 2 menu fonts (selected, unselected)
             regularFont = Game.Content.Load<SpriteFont>(@"Fonts\regularFont");
             highlightFont = Game.Content.Load<SpriteFont>(@"Fonts\hilightFont");
             base.LoadContent();
@@ -76,24 +116,25 @@ namespace SpaceWar2020
         {
             KeyboardState ks = Keyboard.GetState();
 
+            // Down Key: go next menu
             if (ks.IsKeyDown(Keys.Down) && prevKS.IsKeyUp(Keys.Down))
             {
                 selectedIndex++;
 
-                // if we're now out of bounds in our menu
-                // items, reset to first item at index 0
+                // If last sub-menu, go to the first menu
                 if (selectedIndex == menuItems.Count)
                 {
                     selectedIndex = 0;
                 }
             }
 
+            // Up Key: go previous menu
+            // Enter Key: enter the selected menu
             if (ks.IsKeyDown(Keys.Up) && prevKS.IsKeyUp(Keys.Up))
             {
                 selectedIndex--;
 
-                // if we're now out of bounds at -1, 
-                // move us to the last menu item index                
+                // If first sub-menu, go to the last menu              
                 if (selectedIndex == -1)
                 {
                     selectedIndex = menuItems.Count - 1;
@@ -103,12 +144,15 @@ namespace SpaceWar2020
             {
                 SwitchScenes();
             }
-            prevKS = ks;
 
+            prevKS = ks;
 
             base.Update(gameTime);
         }
 
+        /// <summary>
+        /// Change current Menu to a selected Scene
+        /// </summary>
         private void SwitchScenes()
         {
             ((Game1)Game).HideAllScenes();
@@ -145,26 +189,24 @@ namespace SpaceWar2020
             Vector2 nextPosition = startingPosition;
 
             sb.Begin();
-
+            // Display All menus
             for (int i = 0; i < menuItems.Count; i++)
             {
                 SpriteFont activeFont = regularFont;
                 Color activeColor = regularColor;
 
-                // if the selection is the item we are drawing
-                // made it a the special font and colour
+                // If selected menu, display it with special font and color
+                // If not, display it with regualr font and color
                 if (selectedIndex == i)
                 {
                     activeFont = highlightFont;
                     activeColor = hilightColor;
                 }
-
                 sb.DrawString(activeFont, menuItems[i], nextPosition, activeColor);
 
-                // update the position of next string
+                // Update the position of next string
                 nextPosition.Y += regularFont.LineSpacing;
             }
-
             sb.End();
 
             base.Draw(gameTime);

@@ -17,26 +17,58 @@ using System.Threading.Tasks;
 
 namespace SpaceWar2020
 {
+    /// <summary>
+    /// Expolsion Animation
+    /// </summary>
     public class Explosion : DrawableGameComponent
     {
+        /// <summary>
+        /// Fixed downward speed
+        /// </summary>
         const int DOWN_SPEED = 3;
+
+        /// <summary>
+        /// Time interval between frames
+        /// </summary>
         const double FRAME_INTERVAL = 0.1;
+
+        /// <summary>
+        /// Volume for Sound Effects 
+        /// </summary>
         const float SFX_VOLUME = 0.1f;
 
         static List<Texture2D> textures;
-        int currentFrame = 0;
-
-        double frameTimer = 0;
-
         Vector2 position;
 
+        /// <summary>
+        /// Explosion Sound Effect Instance
+        /// </summary>
         static SoundEffect sfxExplosion;
 
+        /// <summary>
+        /// current Frame number
+        /// </summary>
+        int currentFrame = 0;
+
+        /// <summary>
+        /// Timer variable for checking a next frame time
+        /// </summary>
+        double frameTimer = 0;
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="game">Game Entity</param>
         public Explosion(Game game)
             : this(game, Vector2.Zero)
         {
         }
 
+        /// <summary>
+        /// Constructor with a initial position
+        /// </summary>
+        /// <param name="game">Game Entity</param>
+        /// <param name="position">Initial Position</param>
         public Explosion(Game game, Vector2 position)
             : base(game)
         {
@@ -45,8 +77,20 @@ namespace SpaceWar2020
 
         public override void Update(GameTime gameTime)
         {
+            // Move downward
             position.Y += DOWN_SPEED;
 
+            UpdateFrame(gameTime);
+
+            base.Update(gameTime);
+        }
+
+        /// <summary>
+        /// Animation: Check interval and display a next frame 
+        /// </summary>
+        /// <param name="gameTime">Game Time</param>
+        private void UpdateFrame(GameTime gameTime)
+        {
             frameTimer += gameTime.ElapsedGameTime.TotalSeconds;
             if (frameTimer >= FRAME_INTERVAL)
             {
@@ -58,11 +102,11 @@ namespace SpaceWar2020
                     Game.Components.Remove(this);
                 }
             }
-            base.Update(gameTime);
         }
 
         protected override void LoadContent()
         {
+            // Single Texture List for Explosion
             if (textures == null)
             {
                 textures = new List<Texture2D>();
@@ -78,6 +122,7 @@ namespace SpaceWar2020
                 textures.Add(Game.Content.Load<Texture2D>("Explosion\\explosion1_0090"));
             }
 
+            // Load Sound Effect and Play it
             if (sfxExplosion == null)
             {
                 sfxExplosion = Game.Content.Load<SoundEffect>(@"Sound\CollisionSound");
@@ -92,6 +137,7 @@ namespace SpaceWar2020
             SpriteBatch sb = Game.Services.GetService<SpriteBatch>();
 
             sb.Begin();
+            // Display Explosion
             sb.Draw(textures[currentFrame],
                     new Rectangle((int)position.X, (int)position.Y, 100, 100),
                     null,

@@ -17,23 +17,41 @@ using Microsoft.Xna.Framework.Input;
 
 namespace SpaceWar2020
 {
+    /// <summary>
+    /// About Sub-Menu: Display Developer Names
+    /// </summary>
     class AboutTextComponent : DrawableGameComponent
     {
+        /// <summary>
+        /// Title of menu
+        /// </summary>
         const string TITLE = "ABOUT";
+
+        /// <summary>
+        /// Developers Name
+        /// </summary>
         const string DEVELOPER1 = "Hong, Yi Phyo";
         const string DEVELOPER2 = "Jung, Jiyoung";
 
+        /// <summary>
+        /// Font for diaplaying a title and developers' name 
+        /// </summary>
         SpriteFont scoreFont;
 
+        /// <summary>
+        /// Menu Start Position
+        /// </summary>
         private Vector2 startingPosition;
 
+        // Default constructor
         public AboutTextComponent(Game game) : base(game)
         {
         }
 
         public override void Initialize()
         {
-            // starting position of the menu items - but you can decise to put it elsewhere
+
+            // Assign starting position in the middle of screen
             SpriteFont font = Game.Content.Load<SpriteFont>(@"Fonts\regularFont");
             startingPosition = new Vector2(GraphicsDevice.Viewport.Width / 2 - font.MeasureString(DEVELOPER1).X / 2,
                               GraphicsDevice.Viewport.Height / 2 - 4 * font.MeasureString(DEVELOPER1).Y / 2);
@@ -43,7 +61,7 @@ namespace SpaceWar2020
 
         protected override void LoadContent()
         {
-            // load the fonts we will be using for this menu
+            // Load menu font
             scoreFont = Game.Content.Load<SpriteFont>(@"Fonts\regularFont");
             base.LoadContent();
         }
@@ -52,7 +70,7 @@ namespace SpaceWar2020
         {
             KeyboardState ks = Keyboard.GetState();
 
-            // handle the escape key for this scene
+            // ESC key: exit menu
             if (ks.IsKeyDown(Keys.Escape))
             {
                 ((Game1)Game).HideAllScenes();
@@ -68,9 +86,12 @@ namespace SpaceWar2020
             Vector2 nextPosition = startingPosition;
 
             sb.Begin();
+            // First Line: Title
             sb.DrawString(scoreFont, TITLE, nextPosition, Color.Red);
             nextPosition.Y += scoreFont.LineSpacing;
+            // Add blank line
             nextPosition.Y += scoreFont.LineSpacing;
+            // Display 2 Developer names
             sb.DrawString(scoreFont, DEVELOPER1, nextPosition, Color.Black);
             nextPosition.Y += scoreFont.LineSpacing;
             sb.DrawString(scoreFont, DEVELOPER2, nextPosition, Color.Black);
