@@ -1,4 +1,12 @@
-﻿using System;
+﻿/* 
+ * AboutTextComponent.cs
+ * Final Project: SpaceWar2020
+ *                About sub-menu component
+ * Revision History:
+ *      Jiyoung Jung, 2020.12.09: Version 1.0
+ *      
+*/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

@@ -1,4 +1,12 @@
-﻿using System;
+﻿/* 
+ * ICollidable.cs
+ * Final Project: SpaceWar2020
+ *                Interface for manipulating Collisions 
+ * Revision History: 
+ *      originally from Course Meterial
+ *      
+*/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

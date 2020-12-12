@@ -1,4 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿/* 
+ * HelpTextComponent.cs
+ * Final Project: SpaceWar2020
+ *                Help sub-menu component
+ * Revision History:
+ *      Jiyoung Jung, 2020.12.09: Version 1.0
+ *      
+*/
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 

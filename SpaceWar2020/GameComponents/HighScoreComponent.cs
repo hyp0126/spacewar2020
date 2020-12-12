@@ -1,4 +1,12 @@
-﻿using System;
+﻿/* 
+ * HighScoreComponent.cs
+ * Final Project: SpaceWar2020
+ *                HIgh Score sub-menu component
+ * Revision History:
+ *      Jiyoung Jung, 2020.12.03: Version 1.0
+ *      
+*/
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,6 +23,7 @@ namespace SpaceWar2020
         const string TITLE = "High Score Record";
         const int MAX_RECORDS = 5;
 
+        SpriteFont scoreTitleFont;
         SpriteFont scoreFont;
 
         private Vector2 startingPosition;
@@ -36,7 +45,9 @@ namespace SpaceWar2020
         protected override void LoadContent()
         {
             // load the fonts we will be using for this menu
-            scoreFont = Game.Content.Load<SpriteFont>(@"Fonts\regularFont");
+            scoreTitleFont = Game.Content.Load<SpriteFont>(@"Fonts\regularFont");
+            // Monospace font for alienment (Name : score)
+            scoreFont = Game.Content.Load<SpriteFont>(@"Fonts\scoreMenuFont");
             base.LoadContent();
         }
 
@@ -63,12 +74,14 @@ namespace SpaceWar2020
             List<ScoreData> gameScores = GameScore.ReadScoresFromFile();
 
             sb.Begin();
-            sb.DrawString(scoreFont, TITLE, nextPosition, Color.Red);
+            sb.DrawString(scoreTitleFont, TITLE, nextPosition, Color.Red);
             nextPosition.Y += scoreFont.LineSpacing;
             nextPosition.Y += scoreFont.LineSpacing;
             for (int i = 0; i < gameScores.Count; i++)
             {
-                sb.DrawString(scoreFont, $"{gameScores[i].Name} : {gameScores[i].Value} points", nextPosition, Color.Black);
+                string point = String.Format("{0,6}", gameScores[i].Value.ToString());
+                string name = String.Format("{0,-12}", gameScores[i].Name);
+                sb.DrawString(scoreFont, name + " : " + point, nextPosition, Color.Black);
                 // update the position of next string
                 nextPosition.Y += scoreFont.LineSpacing;
             }

@@ -1,4 +1,12 @@
-﻿using System;
+﻿/* 
+ * Spacecraft.cs
+ * Final Project: SpaceWar2020
+ *                Spacecraft (player)
+ * Revision History:
+ *      Jiyoung Jung, 2020.12.03: Version 1.0
+ *      
+*/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

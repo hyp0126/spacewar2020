@@ -1,4 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿/* 
+ * Bullet.cs
+ * Final Project: SpaceWar2020
+ *                Bullet (enemy)
+ * Revision History: 
+ *      Yiphyo Hong, 2020.11.14: Version 1.0
+ *      
+*/
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;

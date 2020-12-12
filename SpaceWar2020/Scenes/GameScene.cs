@@ -1,4 +1,12 @@
-﻿using System;
+﻿/* 
+ * GameScene.cs
+ * Final Project: SpaceWar2020
+ *                GameScene abstact class
+ * Revision History: 
+ *      Originally from Course Material
+ *      
+*/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,7 +36,6 @@ namespace SpaceWar2020
         /// </summary>
         List<GameComponent> sceneComponents;
 
-
         public GameScene(Game game) : base(game)
         {
             sceneComponents = new List<GameComponent>();           
@@ -36,7 +43,7 @@ namespace SpaceWar2020
 
         public override void Update(GameTime gameTime)
         {
-             // Used to clean up our game components list
+            // Used to clean up our game components list
             // Iterate through what we have, make sure these are still 
             // in the game.  If not, remove them from our scene list
             cleanupTimer += gameTime.ElapsedGameTime.TotalSeconds;

@@ -1,4 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿/* 
+ * Explosion.cs
+ * Final Project: SpaceWar2020
+ *                Explosion component
+ * Revision History: 
+ *      Yiphyo Hong, 2020.11.14: Version 1.0
+ *      
+*/
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using System;

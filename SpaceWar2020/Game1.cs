@@ -29,12 +29,12 @@ namespace SpaceWar2020
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            // Start Menu
             StartScene menuScene = new StartScene(this);
             this.Components.Add(menuScene);
             Services.AddService<StartScene>(menuScene);
 
-            //create other scenes here and add to component list
+            // Sub-Menu action(game), help, high score, about
             ActionScene actionScene = new ActionScene(this);
             this.Components.Add(actionScene);
             Services.AddService<ActionScene>(actionScene);
@@ -53,9 +53,7 @@ namespace SpaceWar2020
 
             base.Initialize(); 
 
-            // hide all then show our first scene
-            // this has to be done after the initialize methods are called
-            // on all our components 
+            // Display Start Menu 
             HideAllScenes();
             menuScene.Show();
         }
@@ -80,7 +78,7 @@ namespace SpaceWar2020
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            // Add spriteBatch to Service
             Services.AddService<SpriteBatch>(spriteBatch);
         }
 
@@ -100,11 +98,6 @@ namespace SpaceWar2020
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-            //    Exit();
-
-            // TODO: Add your update logic here
-
             base.Update(gameTime);
         }
 
@@ -115,8 +108,6 @@ namespace SpaceWar2020
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            // TODO: Add your drawing code here
 
             base.Draw(gameTime);
         }

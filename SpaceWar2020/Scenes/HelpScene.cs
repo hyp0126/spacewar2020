@@ -1,4 +1,12 @@
-﻿using System;
+﻿/* 
+ * HelpScene.cs
+ * Final Project: SpaceWar2020
+ *                Help sub-menu
+ * Revision History:
+ *      Jiyoung Jung, 2020.12.09: Version 1.0
+ *      
+*/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,16 +17,20 @@ using Microsoft.Xna.Framework.Input;
 
 namespace SpaceWar2020
 {
+    /// <summary>
+    /// Sub-Menu: Help
+    /// Game Description, Explanation about Game, Keys 
+    /// </summary>
     public class HelpScene : GameScene
     {
+        // Default constructor
         public HelpScene(Game game) : base(game)
         {
         }
 
         public override void Initialize()
         {
-            // create and add any components that belong to 
-            // this scene to the Scene components list
+            // Create, Add Help Component
             AddComponent(new HelpTextComponent(Game));
             
             base.Initialize();
@@ -28,7 +40,7 @@ namespace SpaceWar2020
         {
             KeyboardState ks = Keyboard.GetState();
 
-            // handle the escape key for this scene
+            // ESC key: exit this menu
             if (ks.IsKeyDown(Keys.Escape))
             {
                 ((Game1)Game).HideAllScenes();

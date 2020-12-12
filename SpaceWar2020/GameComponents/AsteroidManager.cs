@@ -1,4 +1,13 @@
-﻿using Microsoft.Xna.Framework;
+﻿/* 
+ * AsteroidManager.cs
+ * Final Project: SpaceWar2020
+ *                Asteroid Manager
+ *                Create Asteroid
+ * Revision History: 
+ *      Yiphyo Hong, 2020.11.28: Version 1.0
+ *      
+*/
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;

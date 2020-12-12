@@ -1,4 +1,13 @@
-﻿using System;
+﻿/* 
+ * AlienSpacecraft.cs
+ * Final Project: SpaceWar2020
+ *                Alien Spacecraft Manager
+ *                Create Alien Spacecraft
+ * Revision History: 
+ *      Yiphyo Hong, 2020.11.28: Version 1.0
+ *      
+*/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

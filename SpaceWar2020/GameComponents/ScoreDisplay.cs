@@ -1,4 +1,12 @@
-﻿using System;
+﻿/* 
+ * ScoreDisplay.cs
+ * Final Project: SpaceWar2020
+ *                Calcualte, Display Score
+ * Revision History:
+ *      Jiyoung Jung, 2020.12.08: Version 1.0
+ *      
+*/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

@@ -286,6 +286,13 @@
 /processorParam:TextureFormat=Compressed
 /build:Fonts/scoreDisplayFont.spritefont
 
+#begin Fonts/scoreMenuFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/scoreMenuFont.spritefont
+
 #begin Images/helpImage.png
 /importer:TextureImporter
 /processor:TextureProcessor

@@ -1,4 +1,11 @@
-﻿
+﻿/* 
+ * ActionScene.cs
+ * Final Project: SpaceWar2020
+ *                Play game sub-menu
+ * Revision History:
+ *      Yiphyo Hong, 2020.12.03: Version 1.0
+ *      
+*/
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -15,11 +22,7 @@ namespace SpaceWar2020
 
         public override void Initialize()
         {
-            // create and add any components that belong to this scene
-            // Add them by calling AddComponent(GameComponent component) 
-            // method.  It will take care of adding the component to the 
-            // game as well as keeping track of what belongs to it.
-
+            // Add Game Backgound
             this.AddComponent(new Background(Game));
 
             StartNewGame();
@@ -27,6 +30,9 @@ namespace SpaceWar2020
             base.Initialize();
         }
 
+        /// <summary>
+        /// Add Game Components and Services for a new game
+        /// </summary>
         private void StartNewGame()
         {
             Spacecraft spacecraft = new Spacecraft(Game, this);
@@ -42,11 +48,15 @@ namespace SpaceWar2020
         {
             KeyboardState ks = Keyboard.GetState();
 
+            // If spacecraft (player) does not exist, 
+            //  In other words, If Game is end
             if (Game.Services.GetService<Spacecraft>() == null)
             {
-                // Stop create enemy
+                // Stop to create enemies
                 ClearManagers();
 
+                // If current score is in 5th, 
+                // Call HighScoreInput for Writing new score to a file with player name
                 int score = Game.Services.GetService<ScoreDisplay>().GetScore();
                 if (!Game.Components.OfType<HighScoreInput>().Any())
                 {
@@ -55,22 +65,21 @@ namespace SpaceWar2020
                         this.AddComponent(new HighScoreInput(Game));
                     }
 
+                    // Enter key: New game
                     if (ks.IsKeyDown(Keys.Enter))
                     {
-                        // New Game
                         ClearGame();
                         StartNewGame();
                     }
                 }
             }
 
-            // handle the escape key for this scene
+            // ESC key: exit this menu
             if (ks.IsKeyDown(Keys.Escape))
             {
-                // If Game end, delete all
+                // If Game end, delete all current enemies
                 if (Game.Services.GetService<Spacecraft>() == null)
                 {
-                    // Game End
                     ClearGame();
                 }
 
@@ -81,6 +90,9 @@ namespace SpaceWar2020
             base.Update(gameTime);
         }
 
+        /// <summary>
+        /// Clear Aline, Asteroid Managers for stopping to create new enemies
+        /// </summary>
         private void ClearManagers()
         {
             List<AlienSpacecraftManager> alienSpacecraftManagers = (List<AlienSpacecraftManager>)Game.Components.OfType<AlienSpacecraftManager>().ToList();
@@ -97,6 +109,9 @@ namespace SpaceWar2020
             }
         }
 
+        /// <summary>
+        /// Clear all components in this scene
+        /// </summary>
         private void ClearGame()
         {
             ClearManagers();

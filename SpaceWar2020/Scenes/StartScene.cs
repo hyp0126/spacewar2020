@@ -1,4 +1,12 @@
-﻿using System;
+﻿/* 
+ * StartScene.cs
+ * Final Project: SpaceWar2020
+ *                Main Menu
+ * Revision History:
+ *      Yiphyo Hong, 2020.12.03: Version 1.0
+ *      
+*/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,7 +26,7 @@ namespace SpaceWar2020
 
         public override void Initialize()
         {
-            // create and add any components that belong to this scene
+            // Create, Add Main Menu Component
             AddComponent(new MenuComponent(Game));
             
             base.Initialize();

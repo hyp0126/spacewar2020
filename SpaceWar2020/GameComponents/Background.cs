@@ -1,4 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿/* 
+ * Background.cs
+ * Final Project: SpaceWar2020
+ *                Game background component
+ * Revision History:
+ *      Jiyoung Jung, 2020.11.14: Version 1.0
+ *      
+*/
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;

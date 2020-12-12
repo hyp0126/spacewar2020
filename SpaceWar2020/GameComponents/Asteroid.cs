@@ -1,4 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿/* 
+ * Asteroid.cs
+ * Final Project: SpaceWar2020
+ *                Asteroid (enemy)
+ * Revision History: 
+ *      Yiphyo Hong, 2020.11.14: Version 1.0
+ *      
+*/
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
