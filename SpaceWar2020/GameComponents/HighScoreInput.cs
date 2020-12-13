@@ -29,6 +29,11 @@ namespace SpaceWar2020
         const string TITLE = "Enter Your Name";
 
         /// <summary>
+        /// Maximum player name characters
+        /// </summary>
+        const int MAX_NAME_CHARS = 12;
+        
+        /// <summary>
         /// Idel time after player entered user name.
         /// For stable transition from input mode to game mode
         /// </summary>
@@ -115,7 +120,10 @@ namespace SpaceWar2020
                             enteredString += " ";
                             break;
                         case Keys.Back:
-                            enteredString = enteredString.Remove(enteredString.Length - 1);
+                            if (enteredString.Length > 0)
+                            {
+                                enteredString = enteredString.Remove(enteredString.Length - 1);
+                            }
                             break;
                         case Keys.A:
                         case Keys.B:
@@ -152,7 +160,6 @@ namespace SpaceWar2020
                             {
                                 enteredString += key.ToString().ToLower();
                             }
-
                             break;
                         case Keys.OemPeriod:
                             enteredString += ".";
@@ -184,6 +191,12 @@ namespace SpaceWar2020
                     }
 
                 }
+            }
+
+            // Limit Maximum player name characters
+            if (enteredString.Length > MAX_NAME_CHARS)
+            {
+                enteredString = enteredString.Remove(enteredString.Length - 1);
             }
 
             prevKS = keyState;
