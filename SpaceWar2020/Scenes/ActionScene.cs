@@ -107,6 +107,7 @@ namespace SpaceWar2020
                 Game.Components.Remove(asteroidManagers[i]);
 
             }
+            Missile.missileLevel = 0;
         }
 
         /// <summary>

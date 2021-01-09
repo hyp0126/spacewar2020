@@ -204,10 +204,22 @@ namespace SpaceWar2020
                 shootingTimer += gameTime.ElapsedGameTime.TotalSeconds;
                 if(shootingTimer >= MISSILE_INTERVAL)
                 {
-                    // Create a Missile on the top of the player
-                    Missile missile = new Missile(Game, new Vector2(Position.X + WIDTH / 2, Position.Y));
-                    shootingTimer = 0;
-                    parent.AddComponent(missile);
+                    if(Missile.missileLevel == 1)
+                    {
+                        // Create a Missile on the top of the player
+                        Missile missile = new Missile(Game, new Vector2(Position.X + WIDTH / 2, Position.Y));
+                        shootingTimer = 0;
+                        parent.AddComponent(missile);
+                    }else if(Missile.missileLevel == 2)
+                    {
+                        // Create a Missile on the top of the player
+                        Missile missile1 = new Missile(Game, new Vector2(Position.X, Position.Y));
+                        Missile missile2 = new Missile(Game, new Vector2(Position.X + WIDTH, Position.Y));
+                        shootingTimer = 0;
+                        parent.AddComponent(missile1);
+                        parent.AddComponent(missile2);
+                    }
+                    
                 }
             }
 
