@@ -62,6 +62,11 @@ namespace SpaceWar2020
         static SoundEffect sfxShooting;
 
         /// <summary>
+        /// Missile level
+        /// </summary>
+        public static int missileLevel = 1;
+
+        /// <summary>
         /// Collision Box 
         /// </summary>
         public Rectangle CollisionBox => new Rectangle((int)position.X + COLLISION_OFFSET_WIDTH,

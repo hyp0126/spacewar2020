@@ -89,6 +89,16 @@ namespace SpaceWar2020
             // Set position for display score (top, center horizontally)
             scorePosition.X = Game.GraphicsDevice.Viewport.Width / 2 - scoreFont.MeasureString(scoreText).X / 2;
             scorePosition.Y = scoreFont.MeasureString(scoreText).Y;
+
+            if (((GetScore() >= 100 && GetScore() < 150) ||
+                (GetScore() >= 1000 && GetScore() < 1050)
+                    )&& !Game.Components.OfType<Bonus>().Any())
+            {
+                // Create a Bonus on the top
+                Bonus bonus = new Bonus(Game, new Vector2(50, 10));
+                
+                parent.AddComponent(bonus);
+            }
             base.Update(gameTime);
         }
 
